@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/20/ideas/DemoClient/src/client/core/model
+END
+Event.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/18/ideas/DemoClient/src/client/core/model/Event.java
+END
+DispatchTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/3/ideas/DemoClient/src/client/core/model/DispatchTask.java
+END
+ListenerGroup.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/20/ideas/DemoClient/src/client/core/model/ListenerGroup.java
+END
+Notifiers.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/20/ideas/DemoClient/src/client/core/model/Notifiers.java
+END
+Task.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/18/ideas/DemoClient/src/client/core/model/Task.java
+END
+TimeStamp.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/4/ideas/DemoClient/src/client/core/model/TimeStamp.java
+END
+Dispatcher.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/3/ideas/DemoClient/src/client/core/model/Dispatcher.java
+END
+EventListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/3/ideas/DemoClient/src/client/core/model/EventListener.java
+END
+IDispatch.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/3/ideas/DemoClient/src/client/core/model/IDispatch.java
+END
+IEventHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/18/ideas/DemoClient/src/client/core/model/IEventHandler.java
+END

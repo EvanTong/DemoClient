@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/20/ideas/DemoClient/src/client/core/model/net
+END
+Connection.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/20/ideas/DemoClient/src/client/core/model/net/Connection.java
+END
+Sender.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/18/ideas/DemoClient/src/client/core/model/net/Sender.java
+END
+Receiver.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/18/ideas/DemoClient/src/client/core/model/net/Receiver.java
+END
+ResponseParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/3/ideas/DemoClient/src/client/core/model/net/ResponseParser.java
+END

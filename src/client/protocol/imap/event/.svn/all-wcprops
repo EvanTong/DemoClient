@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/20/ideas/DemoClient/src/client/protocol/imap/event
+END
+QuitIdle.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/26/ideas/DemoClient/src/client/protocol/imap/event/QuitIdle.java
+END
+TearDownIdle.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/26/ideas/DemoClient/src/client/protocol/imap/event/TearDownIdle.java
+END
+SearchResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/21/ideas/DemoClient/src/client/protocol/imap/event/SearchResult.java
+END
+ImapSessionOff.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/20/ideas/DemoClient/src/client/protocol/imap/event/ImapSessionOff.java
+END
+ImapSendDone.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/18/ideas/DemoClient/src/client/protocol/imap/event/ImapSendDone.java
+END
+ImapSessionOn.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/20/ideas/DemoClient/src/client/protocol/imap/event/ImapSessionOn.java
+END
+LoginResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/26/ideas/DemoClient/src/client/protocol/imap/event/LoginResult.java
+END
+FetchResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/20/ideas/DemoClient/src/client/protocol/imap/event/FetchResult.java
+END
+ImapSendError.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/18/ideas/DemoClient/src/client/protocol/imap/event/ImapSendError.java
+END
+NoopResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/26/ideas/DemoClient/src/client/protocol/imap/event/NoopResult.java
+END
+ImapConnectionClose.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/20/ideas/DemoClient/src/client/protocol/imap/event/ImapConnectionClose.java
+END
+ImapIdling.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/26/ideas/DemoClient/src/client/protocol/imap/event/ImapIdling.java
+END
+SelectResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/20/ideas/DemoClient/src/client/protocol/imap/event/SelectResult.java
+END

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/20/ideas/DemoClient/src/client/core
+END
+Utils.java
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/26/ideas/DemoClient/src/client/core/Utils.java
+END
+ICore.java
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/20/ideas/DemoClient/src/client/core/ICore.java
+END
+ImapSessionManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/20/ideas/DemoClient/src/client/core/ImapSessionManager.java
+END
+Core.java
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/26/ideas/DemoClient/src/client/core/Core.java
+END
+ConnectionManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/20/ideas/DemoClient/src/client/core/ConnectionManager.java
+END
+EventManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/21/ideas/DemoClient/src/client/core/EventManager.java
+END
+TaskManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/18/ideas/DemoClient/src/client/core/TaskManager.java
+END

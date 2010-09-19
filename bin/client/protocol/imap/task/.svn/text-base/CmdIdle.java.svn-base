@@ -1,0 +1,20 @@
+package client.protocol.imap.task;
+
+import client.core.model.Event;
+import client.core.model.IEventHandler;
+import client.protocol.imap.ImapSession;
+import client.protocol.imap.bean.ContinueReq;
+
+public class CmdIdle extends ImapCommand {
+	public CmdIdle(ImapSession session) {
+		mSession = session;
+		mCmd.append(String.format("%s IDLE", mTag));
+		
+		mEHs.put(ContinueReq.class, new IEventHandler<Void>() {
+			public Void handle(Event event) {
+				return null;
+			}
+		});
+		
+	}
+}

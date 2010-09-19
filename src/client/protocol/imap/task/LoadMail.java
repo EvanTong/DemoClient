@@ -1,0 +1,128 @@
+package client.protocol.imap.task;
+
+import java.io.IOException;
+import java.net.URI;
+import java.util.HashSet;
+import java.util.Vector;
+
+import client.core.ConnectionManager;
+import client.core.Core;
+import client.core.model.Event;
+import client.core.model.Task;
+import client.core.model.project.Project;
+import client.core.model.project.TodoItem;
+import client.core.model.project.TriggerEventHandler;
+import client.protocol.imap.ImapConnection;
+import client.protocol.imap.ImapConnection.LoggedIn;
+import client.protocol.imap.ImapSession;
+import client.protocol.imap.bean.MsgAtt;
+import client.protocol.imap.bean.Response;
+import client.protocol.imap.bean.ResponseData;
+import client.protocol.imap.bean.SearchData;
+import client.protocol.imap.event.FetchResult;
+import client.protocol.imap.event.ImapSessionOn;
+import client.protocol.imap.event.SelectResult;
+import client.protocol.imap.event.SearchResult;
+import client.protocol.imap.task.CmdFetch.MessageHandler;
+
+public class LoadMail extends Project{
+	public static final long  LOAD_STEP_LENGTH = 4;
+	
+	MessageHandler mStore    = null;	
+	ImapSession    mSession  = null;
+	long           mExists   = 9;
+	long           mNextUid  = 0;
+	long           mMinUid   = 0;
+	long           mAfterUid = 0;
+	HashSet<Integer> mExisted = null;
+	
+	public HashSet<Integer> getExisted() {
+		return mExisted;
+	}
+	
+	public void setMessageHandler(MessageHandler handler) {
+		mStore = handler;
+	}
+	
+	public long getExists() {
+		return mExists;
+	}
+
+	public void setExists(long exist) {
+		mExists = exist;
+	}
+
+	public long getNextUid() {
+		return mNextUid;
+	}
+
+	public void setNextUid(long nextUid) {
+		mNextUid = nextUid;
+	}
+
+	@Override
+	protected void onStart() {
+		try {
+			mSession.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private long getAfterUid() {
+		return mAfterUid;
+	}
+	
+	/**
+	 * NOTICE: 
+	 * Load the specify numbers mail after given uid
+	 * @param session
+	 * @param afterUid
+	 */
+	public LoadMail(ImapSession session, final long number, HashSet<Integer> existed) {
+		super("LoadMail");
+		mSession = session;		
+		mSession.subscribeTo(getSelfListenerGroup());
+		mExisted = existed;
+		TodoItem todo = new TodoItem();
+		todo = new TodoItem();
+		todo.addEventHandler(ImapSessionOn.class, new TriggerEventHandler(getProjectController()){
+			@Override
+			public Task handle(Event event) {
+				ImapSessionOn result = (ImapSessionOn) event;
+				long _uid_next = mSession.getSelectResult().getUidNext();
+				long _exists = mSession.getSelectResult().getExists();
+				long low = (_exists > number) ? (_exists - number + 1) : 1;
+				long hig = _exists;
+				return new CmdSearch(mSession, "UID SEARCH NOT DELETED "
+						+ String.format("%d:%d", low, hig));				
+			}
+		});
+		addTodoItem(todo);
+
+		
+		todo = new TodoItem();
+		todo.addEventHandler(SearchResult.class, new TriggerEventHandler(getProjectController()){
+			@Override
+			public Task handle(Event event) {
+				SearchResult result = ((SearchResult)event);
+				CmdFetch cmd = new CmdFetch(mSession, result.joinExcept(getExisted())).withRFC822Header().useUid();
+				// set storage 
+				cmd.setMessageHandler(mStore);
+				return cmd;
+			}
+		});
+		addTodoItem(todo);
+		
+		todo = new TodoItem();
+		todo.addEventHandler(FetchResult.class, new TriggerEventHandler(getProjectController()){
+			@Override
+			public Task handle(Event event) {
+				FetchResult result = ((FetchResult)event);
+				System.out.println(result);
+				return null;
+			}
+		});
+		addTodoItem(todo);
+	}
+}

@@ -1,0 +1,127 @@
+package client.protocol.imap.task;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import client.core.Core;
+import client.core.TaskManager;
+import client.core.model.Event;
+import client.core.model.EventListener;
+import client.core.model.HandleMeEvent;
+import client.core.model.IEventHandler;
+import client.core.model.Task;
+import client.protocol.imap.ImapConnection;
+import client.protocol.imap.ImapEvent;
+import client.protocol.imap.ImapSession;
+import client.protocol.imap.bean.CapabilityData;
+import client.protocol.imap.bean.ImapTaggedResponse;
+import client.protocol.imap.bean.MailboxData;
+import client.protocol.imap.bean.RespCondState;
+import client.protocol.imap.bean.Response;
+import client.protocol.imap.bean.ResponseDone;
+import client.protocol.imap.event.ImapConnectionClose;
+import client.protocol.imap.event.ImapSendDone;
+import client.protocol.imap.event.ImapSendError;
+
+/**
+ * <p>The {@link ImapCommand} is a kind of {@link Task} which can be processed by {@link TaskManager} </p>
+ * @author amas
+ */
+public abstract class ImapCommand extends Task implements EventListener {
+	protected static final String  PREFIX               = "X";
+	protected String         mTag                       = PREFIX+sIncCounter.getAndDecrement();
+	protected StringBuilder  mCmd                       = new StringBuilder();
+	protected HashMap<Object, IEventHandler<Void>> mEHs = new HashMap<Object, IEventHandler<Void>>();
+	protected ImapSession    mSession                   = null;
+	
+	/**
+	 * remove listener
+	 */
+	public void clear() {
+		Core.I().removeListener(mSession.getURI().toString(),this);
+	}
+	
+	public ImapCommand() {
+		mEHs.put(ImapTaggedResponse.class, new IEventHandler<Void>() {
+			public Void handle(Event event) {
+				onImapTaggedResponse((ImapTaggedResponse)event);
+				return null;
+			}
+		});
+		
+		mEHs.put(ImapConnectionClose.class, new IEventHandler<Void>() {
+			public Void handle(Event event) {
+				clear();
+				return null;
+			}
+		});
+	}
+	
+	protected void onRespCondState(RespCondState event) {
+				
+	}
+
+	final public void onEvent(Event event) {
+		//TODO: check super class ?
+		IEventHandler<Void> h = mEHs.get(event.getClass());
+		if(h != null) {
+			h.handle(event);
+		}
+	}
+	
+	protected void onCapabilityData(CapabilityData capb) {
+		
+	}
+	
+	/**
+	 * On receive {@link MailboxData}
+	 * @param event
+	 */
+	protected void onMailboxData(MailboxData event) {
+		
+	}
+	
+	protected void onImapTaggedResponse(ImapTaggedResponse event) {
+		// TODO: how about error
+		if(event.getTag().equals(mTag)) {	
+			clear();
+			Event result = onPublishResult(event);
+			if (result != null) {
+				result.setFrom("" + getUid());
+				result.setTo(getEventTo());
+				Core.I().push(result);
+			}
+		}
+	}
+	
+	protected Event onPublishResult(ImapTaggedResponse event) {
+		return null;
+	}
+	
+	//TODO: be final ???
+	@Override
+	final protected Event process() {		
+		Core.I().addListener(mSession.getURI().toString(),this);
+		return onSendComand();
+	}
+	
+	protected Event onSendComand() {
+		try {
+			mSession.sendLine(getCommand());
+		} catch (IOException e) {
+			// TODO: send error event ???
+			e.printStackTrace();
+			return new HandleMeEvent(e);
+		}
+		return new ImapSendDone(this);
+	}
+	
+	protected String getCommand() {
+		return mCmd.toString();
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("(ImapCommand (%s))", getCommand());
+	}
+}

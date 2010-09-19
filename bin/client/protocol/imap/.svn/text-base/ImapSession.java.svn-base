@@ -1,0 +1,176 @@
+package client.protocol.imap;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicLong;
+
+import client.core.ConnectionManager;
+import client.core.Core;
+import client.core.model.Event;
+import client.core.model.EventListener;
+import client.core.model.IEventHandler;
+import client.core.model.Notifiers;
+import client.core.model.project.ISubscribable;
+import client.protocol.imap.ImapConnection.LoggedIn;
+import client.protocol.imap.ImapConnection.State;
+import client.protocol.imap.event.ImapConnectionClose;
+import client.protocol.imap.event.ImapSessionOn;
+import client.protocol.imap.event.SelectResult;
+import client.protocol.imap.task.CmdSelect;
+
+public class ImapSession implements ISubscribable{
+	private static AtomicLong sIC   = new AtomicLong();
+	
+	
+	private long           mId      = sIC.getAndIncrement();
+	private String         mMailbox = "INBOX";
+	private ImapConnection mConn    = null;
+	private CmdSelect      mSelect  = null;
+	private Notifiers      mEventTo = null;
+	private SelectResult   mInfo    = null;
+	
+	protected HashMap<Object, IEventHandler<Void>>  mEH = new HashMap<Object, IEventHandler<Void>>();
+	
+	private EventListener  mEl      = new EventListener() {		
+		public void onEvent(Event event) {
+			_onEvent(event);
+		}
+	};
+	
+	public String getMailbox() {
+		return mMailbox;
+	}
+	
+	//TODO: bad name
+	public SelectResult getSelectResult() {
+		return mInfo;
+	}
+	
+	private void setSelectResult(SelectResult result) {
+		mInfo = result;
+	}
+	
+	private void _onEvent(Event event) {
+		IEventHandler<Void> eh = mEH.get(event.getClass());
+		if(eh != null) {
+			eh.handle(event);
+		}
+	}
+	
+	/**
+	 * @param mailbox
+	 */
+	public ImapSession(URI uri) {
+		mMailbox       = uri.getPath();
+//		URI connUri = null;
+
+//		try {
+//			connUri = new URI(uri.getScheme(), uri.getUserInfo(),uri.getHost(), uri.getPort(), getMailbox(), null, null);
+//		} catch (URISyntaxException e) {
+//			e.printStackTrace();
+//		}
+
+		mConn = (ImapConnection) ConnectionManager.I().createConnection(uri);
+		Core.I().addListener(getURI().toString(), mEl);
+
+		// install event handler
+		mEH.put(LoggedIn.class, new IEventHandler<Void>() {
+			public Void handle(Event event) {
+				select();
+				return null;
+			}
+		});
+
+//		mEH.put(ImapConnectionClose.class, new IEventHandler<Void>() {
+//			public Void handle(Event event) {
+//				finish();
+//				return null;
+//			}
+//		});
+
+		mEH.put(SelectResult.class, new IEventHandler<Void>() {
+			public Void handle(Event event) {
+				setSelectResult((SelectResult) event);
+				changeConnectionState(State.Selected);
+				pushEvent(new ImapSessionOn(getURI()));
+				return null;
+			}
+		});
+		
+		mEventTo = new Notifiers(getURI().toString());
+		mSelect  = new CmdSelect(this, getMailbox());
+		
+		mSelect.setEventTo(mEventTo);
+	}
+	
+	protected void changeConnectionState(State state) {
+		mConn.setState(state);
+	}
+	
+	/**
+	 * push a event
+	 * @param event
+	 */
+	protected void pushEvent(Event event) {
+		if(event != null) {
+			event.setFrom(getURI().toString());
+			event.setNotifiers(mEventTo);
+			Core.I().push(event);
+		}
+	}
+	
+	/**
+	 * Change the imap connection state
+	 */
+	private void select() {
+		Core.I().exec(mSelect);
+	}
+	
+	/**
+	 * Send text to server
+	 * @param text
+	 * @throws IOException 
+	 */
+	public void sendLine(String text) throws IOException {
+		mConn.sendLine(text);
+	}
+	
+	/**
+	 * Start a Imap session, if session ready, the {@link SelectResult} event will be published
+	 * @throws IOException
+	 */
+	public synchronized void start() throws IOException {
+		if(mConn.getState() == State.Selected) {
+			pushEvent(new ImapSessionOn(getURI()));
+		} else {
+			mConn.open();
+		}
+	}
+	
+	/**
+	 * Finish a Imap session and destory the connection
+	 */
+	public void finish() {
+		mConn.close();
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		return sb.toString();
+	}
+	
+	public URI getURI() {
+		return mConn.getURI();
+	}
+
+	public void subscribeTo(String listenerGroupUri) {
+		mEventTo.addNotifyUri(listenerGroupUri);
+	}
+
+	public boolean isAvaliable() {
+		return mConn.getState() == State.Selected;
+	}
+}

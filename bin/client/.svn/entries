@@ -1,0 +1,41 @@
+9
+
+dir
+20
+http://localhost/svn/ideas/DemoClient/src/client
+http://localhost/svn
+
+
+
+2010-07-02T01:52:04.290925Z
+20
+
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+a86cc0ec-434a-483a-9cc3-c9edd9ad8197
+
+
+
+
+
+
+0
+
+protocol
+dir
+
+core
+dir
+

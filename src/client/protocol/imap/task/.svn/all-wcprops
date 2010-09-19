@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/20/ideas/DemoClient/src/client/protocol/imap/task
+END
+CmdList.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/18/ideas/DemoClient/src/client/protocol/imap/task/CmdList.java
+END
+CmdNoop.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/26/ideas/DemoClient/src/client/protocol/imap/task/CmdNoop.java
+END
+CmdIdle.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/26/ideas/DemoClient/src/client/protocol/imap/task/CmdIdle.java
+END
+LoadMail.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/26/ideas/DemoClient/src/client/protocol/imap/task/LoadMail.java
+END
+CmdSelect.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/20/ideas/DemoClient/src/client/protocol/imap/task/CmdSelect.java
+END
+_TestIdleProject.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/26/ideas/DemoClient/src/client/protocol/imap/task/_TestIdleProject.java
+END
+ImapCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/26/ideas/DemoClient/src/client/protocol/imap/task/ImapCommand.java
+END
+CmdSearch.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/20/ideas/DemoClient/src/client/protocol/imap/task/CmdSearch.java
+END
+CmdLogin.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/26/ideas/DemoClient/src/client/protocol/imap/task/CmdLogin.java
+END
+CmdFetch.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/20/ideas/DemoClient/src/client/protocol/imap/task/CmdFetch.java
+END

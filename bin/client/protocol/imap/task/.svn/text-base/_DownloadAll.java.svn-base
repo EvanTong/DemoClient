@@ -1,0 +1,34 @@
+package client.protocol.imap.task;
+
+import java.io.IOException;
+import java.net.URI;
+import java.util.Vector;
+
+import client.core.ConnectionManager;
+import client.core.model.Event;
+import client.core.model.Task;
+import client.core.model.project.Project;
+import client.core.model.project.TodoItem;
+import client.core.model.project.TriggerEventHandler;
+import client.protocol.imap.ImapConnection;
+import client.protocol.imap.ImapConnection.LoggedIn;
+import client.protocol.imap.bean.Response;
+
+public class _DownloadAll extends Project {
+	ImapConnection  conn = null;
+	Vector<Integer> msgs = null;
+	
+	@Override
+	protected void onStart() {
+		try {
+			conn.open();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public _DownloadAll(URI uri) {
+		super("DownloadAll");
+	}
+}
